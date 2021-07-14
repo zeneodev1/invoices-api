@@ -13,6 +13,7 @@ import javax.validation.constraints.Email;
 import java.util.Collection;
 
 @Data
+@Table(name = "UserDetails")
 @Entity
 public class User implements UserDetails {
 
