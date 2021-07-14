@@ -2,7 +2,6 @@ package com.zeneo.invoice.filter;
 
 import com.zeneo.invoice.config.JwtUtil;
 import com.zeneo.invoice.dao.User;
-import com.zeneo.invoice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,11 +15,10 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.util.Optional;
 
-import static java.util.List.of;
-import static org.apache.logging.log4j.util.Strings.isEmpty;
 
 @Component
 public class JwtTokenFilter extends OncePerRequestFilter {
@@ -28,8 +26,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     @Autowired
     private JwtUtil jwtTokenUtil;
 
-    @Autowired
-    private UserRepository userRepo;
+
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -37,7 +34,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                                     FilterChain chain) throws ServletException, IOException {
         // Get authorization header and validate
         final String header = request.getHeader(HttpHeaders.AUTHORIZATION);
-        if (isEmpty(header) || !header.startsWith("Bearer ")) {
+        if (header == null || !header.startsWith("Bearer ")) {
             chain.doFilter(request, response);
             return;
         }
@@ -58,7 +55,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                 user, null,
-                Optional.of(user).map(UserDetails::getAuthorities).orElse(of())
+                Optional.of(user).map(UserDetails::getAuthorities).orElse(null)
         );
 
         authentication
