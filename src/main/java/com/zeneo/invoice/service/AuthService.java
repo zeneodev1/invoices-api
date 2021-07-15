@@ -39,7 +39,7 @@ public class AuthService {
         return  userRepo.save(request.toUser());
     }
 
-    public UserInfo getUserInfo(Integer id) {
+    public UserInfo getUserInfo(String id) {
         return  userRepo.findById(id)
                 .orElseThrow(RuntimeException::new)
                 .toUserInfo();

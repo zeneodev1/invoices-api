@@ -4,29 +4,31 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.zeneo.invoice.dto.UserInfo;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.util.Collection;
 
 @Data
-@Table(name = "InvoicesUser")
-@Entity
+@Document
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private String id;
 
-    @Length(min = 3, max = 20)
-    @Column(unique = true)
+    @Length(min = 3, max = 16)
     private String username;
+
+    @Length(min = 8, max = 16)
     private String password;
+
     @Email
-    @Column(unique = true)
+    @Indexed(unique = true)
     private String email;
 
     @Override

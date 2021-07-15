@@ -28,13 +28,13 @@ public class JwtUtil {
                 .compact();
     }
 
-    public Integer getUserId(String token) {
+    public String getUserId(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(jwtSecret)
                 .parseClaimsJws(token)
                 .getBody();
 
-        return Integer.parseInt(claims.getSubject());
+        return claims.getSubject();
     }
 
     public String getUsername(String token) {
