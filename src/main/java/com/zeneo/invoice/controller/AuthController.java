@@ -6,9 +6,6 @@ import com.zeneo.invoice.dto.LoginRequest;
 import com.zeneo.invoice.dto.RegisterRequest;
 import com.zeneo.invoice.dto.UserInfo;
 import com.zeneo.invoice.service.AuthService;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -52,7 +49,7 @@ public class AuthController {
 
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "201", description = "Account created successfully",
+                    @ApiResponse(responseCode = "200", description = "Account created successfully",
                             content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = UserInfo.class)) },
                             headers = {
@@ -75,13 +72,6 @@ public class AuthController {
                             content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = UserInfo.class)) })
             }
-    )
-    @Parameters(
-        {
-            @Parameter(name = HttpHeaders.AUTHORIZATION,
-                    in = ParameterIn.HEADER,
-                    schema = @Schema(type = "string", example = "Bearer token"))
-        }
     )
     @GetMapping("/user-info")
     public ResponseEntity<UserInfo> getUserInfo(Authentication authentication) {
