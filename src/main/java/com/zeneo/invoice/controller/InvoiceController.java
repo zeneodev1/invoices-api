@@ -1,6 +1,7 @@
 package com.zeneo.invoice.controller;
 
 import com.zeneo.invoice.dao.Invoice;
+import com.zeneo.invoice.exception.InvoiceNotFoundException;
 import com.zeneo.invoice.repository.InvoiceRepository;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class InvoiceController {
 
     @GetMapping("/{id}")
     public Invoice findInvoice(@PathVariable String id) {
-        return invoiceRepository.findById(id).orElse(null);
+        return invoiceRepository.findById(id).orElseThrow(InvoiceNotFoundException::new);
     }
 
     @PostMapping
@@ -32,6 +33,7 @@ public class InvoiceController {
 
     @PutMapping
     public Invoice updateInvoice(@RequestBody Invoice invoice) {
+        invoiceRepository.findById(invoice.getId()).orElseThrow(InvoiceNotFoundException::new);
         return invoiceRepository.save(invoice);
     }
 
