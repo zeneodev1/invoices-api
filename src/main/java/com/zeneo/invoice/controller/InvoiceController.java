@@ -1,6 +1,8 @@
 package com.zeneo.invoice.controller;
 
+import com.zeneo.invoice.StringUtil;
 import com.zeneo.invoice.dao.Invoice;
+import com.zeneo.invoice.dao.InvoiceStatus;
 import com.zeneo.invoice.exception.InvoiceNotFoundException;
 import com.zeneo.invoice.repository.InvoiceRepository;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -28,12 +30,21 @@ public class InvoiceController {
 
     @PostMapping
     public Invoice addInvoice(@RequestBody Invoice invoice) {
+        invoice.setKey(StringUtil.generateKey());
         return invoiceRepository.save(invoice);
     }
 
     @PutMapping
     public Invoice updateInvoice(@RequestBody Invoice invoice) {
         invoiceRepository.findById(invoice.getId()).orElseThrow(InvoiceNotFoundException::new);
+        return invoiceRepository.save(invoice);
+    }
+
+    @PutMapping("/status/{id}/{status}")
+    public Invoice updateInvoiceStatus(@PathVariable String id, @PathVariable InvoiceStatus status) {
+        Invoice invoice = invoiceRepository.findById(id)
+                .orElseThrow(InvoiceNotFoundException::new);
+        invoice.setStatus(status);
         return invoiceRepository.save(invoice);
     }
 

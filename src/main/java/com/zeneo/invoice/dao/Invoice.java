@@ -12,6 +12,7 @@ public class Invoice {
 
     @Id
     private String id;
+    private String key;
     private InvoiceFrom from;
     private InvoiceTo to;
     private InvoiceTerms terms;
