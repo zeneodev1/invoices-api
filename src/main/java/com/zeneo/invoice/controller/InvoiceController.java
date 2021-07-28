@@ -30,7 +30,7 @@ public class InvoiceController {
     @GetMapping("/{id}")
     public Invoice findInvoice(@PathVariable String id, Authentication authentication) {
         return invoiceRepository.findById(id)
-                .filter(invoice -> invoice.getId().equals(((User) authentication.getPrincipal()).getId()))
+                .filter(invoice -> invoice.getUserId().equals(((User) authentication.getPrincipal()).getId()))
                 .orElseThrow(InvoiceNotFoundException::new);
     }
 
