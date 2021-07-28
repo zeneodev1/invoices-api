@@ -4,6 +4,7 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -18,5 +19,7 @@ public class Invoice {
     private InvoiceTerms terms;
     private String description;
     private InvoiceStatus status;
+    private String userId;
+    private Date createdAt;
     private List<InvoiceItem> invoiceItems;
 }
